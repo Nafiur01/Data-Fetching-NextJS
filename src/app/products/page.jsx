@@ -1,18 +1,22 @@
-import { cookies } from "next/headers";
+// import { cookies } from "next/headers";
 
-export const fetchCache = "default-cache";
+// export const fetchCache = "default-cache";
 
 import React from "react";
 
 export default async function ProductPage() {
-  const response = await fetch("http://localhost:3001/products");
+  const response = await fetch("http://localhost:3001/products", {
+    next: {
+      revalidate: 10,
+    },
+  });
   const products = await response.json();
 
-  const cookieStore = cookies();
-  cookieStore.get("theme");
+  // const cookieStore = cookies();
+  // cookieStore.get("theme");
 
-  const detailResponse = await fetch("http://localhost:3001/products/1");
-  const details = await detailResponse.json();
+  // const detailResponse = await fetch("http://localhost:3001/products/1");
+  // const details = await detailResponse.json();
 
   return (
     <ul className="space-y-4 p-4">
@@ -24,7 +28,7 @@ export default async function ProductPage() {
           <h2 className="text-xl font-semibold">{product.title}</h2>
           <p>{product.description}</p>
           <p className="text-lg font-medium">${product.price}</p>
-          <p>{details.price}</p>
+          {/* <p>{details.price}</p> */}
         </li>
       ))}
     </ul>
